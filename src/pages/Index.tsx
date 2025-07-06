@@ -1,12 +1,47 @@
-
+import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/clerk-react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowRight, Palette, Type, Square, Users, Zap, Download } from "lucide-react";
 import { SplineSceneBasic } from "@/components/ui/demo";
+import { Link } from "react-router-dom";
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-black">
+      {/* Header */}
+      <header className="absolute top-0 left-0 right-0 z-50 px-6 py-4">
+        <div className="max-w-6xl mx-auto flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
+              <Palette className="w-5 h-5 text-white" />
+            </div>
+            <span className="text-xl font-bold text-neutral-100">DrawBoard</span>
+          </div>
+          
+          <div className="flex items-center gap-4">
+            <SignedOut>
+              <SignInButton fallbackRedirectUrl="/dashboard" forceRedirectUrl="/dashboard">
+                <Button variant="ghost" className="text-neutral-300 hover:text-white">
+                  Sign In
+                </Button>
+              </SignInButton>
+            </SignedOut>
+            <SignedIn>
+              <Link to="/dashboard">
+                <Button variant="ghost" className="text-neutral-300 hover:text-white">
+                  Dashboard
+                </Button>
+              </Link>
+              <UserButton appearance={{
+                elements: {
+                  avatarBox: "w-8 h-8",
+                }
+              }} />
+            </SignedIn>
+          </div>
+        </div>
+      </header>
+
       {/* Hero Section with Spline scene */}
       <section className="px-6 py-20 max-w-6xl mx-auto">
         <div className="animate-fade-in">
@@ -102,7 +137,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* CTA Section - Redesigned with dark theme */}
+      {/* CTA Section - Updated with authentication */}
       <section className="px-6 py-20 bg-gradient-to-r from-neutral-900 via-black to-neutral-900 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-500/10 via-transparent to-transparent"></div>
         <div className="max-w-4xl mx-auto text-center relative z-10">
@@ -112,10 +147,24 @@ const Index = () => {
           <p className="text-xl mb-8 text-neutral-300">
             Join thousands of creators and teams who trust DrawBoard for their visual collaboration
           </p>
-          <Button size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white px-8 py-4 text-lg font-semibold transform hover:scale-105 transition-all duration-200 border-0">
-            Get Started Today
-            <ArrowRight className="w-5 h-5 ml-2" />
-          </Button>
+          
+          <SignedOut>
+            <SignInButton fallbackRedirectUrl="/dashboard" forceRedirectUrl="/dashboard">
+              <Button size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white px-8 py-4 text-lg font-semibold transform hover:scale-105 transition-all duration-200 border-0">
+                Get Started Today
+                <ArrowRight className="w-5 h-5 ml-2" />
+              </Button>
+            </SignInButton>
+          </SignedOut>
+          
+          <SignedIn>
+            <Link to="/dashboard">
+              <Button size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white px-8 py-4 text-lg font-semibold transform hover:scale-105 transition-all duration-200 border-0">
+                Go to Dashboard
+                <ArrowRight className="w-5 h-5 ml-2" />
+              </Button>
+            </Link>
+          </SignedIn>
         </div>
       </section>
 
