@@ -3,9 +3,15 @@ import { UserButton, useUser } from '@clerk/clerk-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Palette, Plus, FileText, Users, Settings } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
   const { user } = useUser();
+  const navigate = useNavigate();
+
+  const handleNewBoard = () => {
+    navigate('/whiteboard');
+  };
 
   return (
     <div className="min-h-screen bg-black">
@@ -43,7 +49,10 @@ const Dashboard = () => {
 
         {/* Quick Actions */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-          <Card className="group bg-neutral-900/50 backdrop-blur-sm hover:bg-neutral-800/50 transition-all duration-300 transform hover:-translate-y-1 border border-neutral-800 hover:border-neutral-700 cursor-pointer">
+          <Card 
+            className="group bg-neutral-900/50 backdrop-blur-sm hover:bg-neutral-800/50 transition-all duration-300 transform hover:-translate-y-1 border border-neutral-800 hover:border-neutral-700 cursor-pointer"
+            onClick={handleNewBoard}
+          >
             <CardContent className="p-6 text-center">
               <div className="w-12 h-12 bg-gradient-to-br from-green-500/20 to-green-600/30 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 border border-green-500/20">
                 <Plus className="w-6 h-6 text-green-400" />
@@ -92,7 +101,10 @@ const Dashboard = () => {
               <FileText className="w-8 h-8 text-neutral-400" />
             </div>
             <p className="text-neutral-400 mb-6">No boards yet. Create your first board to get started!</p>
-            <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white border-0">
+            <Button 
+              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white border-0"
+              onClick={handleNewBoard}
+            >
               <Plus className="w-4 h-4 mr-2" />
               Create Your First Board
             </Button>
