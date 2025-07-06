@@ -1,6 +1,6 @@
 
 import { useEffect, useRef, useState } from "react";
-import { Canvas as FabricCanvas, Circle, Rect, Line, Point, Path } from "fabric";
+import { fabric } from "fabric";
 import { toast } from "sonner";
 
 interface CanvasProps {
