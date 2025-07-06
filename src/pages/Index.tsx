@@ -1,73 +1,15 @@
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowRight, Palette, Type, Square, Users, Zap, Download } from "lucide-react";
-import { Link } from "react-router-dom";
+import { SplineSceneBasic } from "@/components/ui/demo";
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
-      {/* Navigation */}
-      <nav className="w-full px-6 py-4 flex justify-between items-center bg-white/80 backdrop-blur-sm border-b border-white/20 sticky top-0 z-50">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-            <Palette className="w-5 h-5 text-white" />
-          </div>
-          <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            DrawBoard
-          </span>
-        </div>
-        <div className="flex items-center gap-4">
-          <Button variant="ghost" className="hover:bg-blue-50">Features</Button>
-          <Button variant="ghost" className="hover:bg-blue-50">Pricing</Button>
-          <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white">
-            Get Started
-            <ArrowRight className="w-4 h-4 ml-2" />
-          </Button>
-        </div>
-      </nav>
-
-      {/* Hero Section */}
-      <section className="px-6 py-20 text-center max-w-6xl mx-auto">
+      {/* Replace navbar and hero with Spline scene */}
+      <section className="px-6 py-20 max-w-6xl mx-auto">
         <div className="animate-fade-in">
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-slate-800 via-blue-800 to-purple-800 bg-clip-text text-transparent leading-tight">
-            Create, Collaborate,
-            <br />
-            <span className="relative">
-              Innovate
-              <div className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full transform scale-x-0 animate-[scale-x-100_1s_ease-out_1s_forwards]"></div>
-            </span>
-          </h1>
-          <p className="text-xl md:text-2xl text-slate-600 mb-8 max-w-3xl mx-auto leading-relaxed">
-            The ultimate digital whiteboard for teams and creators. Draw, design, and brainstorm with powerful tools and seamless collaboration.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-            <Button size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 text-lg font-semibold transform hover:scale-105 transition-all duration-200">
-              Start Drawing Free
-              <ArrowRight className="w-5 h-5 ml-2" />
-            </Button>
-            <Button size="lg" variant="outline" className="border-2 border-slate-300 hover:border-blue-400 px-8 py-4 text-lg font-semibold">
-              Watch Demo
-            </Button>
-          </div>
-        </div>
-
-        {/* Preview Image Placeholder */}
-        <div className="relative max-w-4xl mx-auto mb-20">
-          <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-2xl border border-white/20 p-8 transform hover:scale-[1.02] transition-all duration-500">
-            <div className="aspect-video bg-gradient-to-br from-blue-100 to-purple-100 rounded-xl flex items-center justify-center relative overflow-hidden">
-              <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
-              <div className="text-center z-10">
-                <Palette className="w-16 h-16 text-blue-500 mx-auto mb-4" />
-                <p className="text-slate-600 text-lg font-medium">Interactive Whiteboard Preview</p>
-                <p className="text-slate-500">Coming Soon</p>
-              </div>
-              {/* Floating elements for visual interest */}
-              <div className="absolute top-4 left-4 w-12 h-12 bg-blue-200 rounded-full opacity-60 animate-pulse"></div>
-              <div className="absolute bottom-6 right-6 w-8 h-8 bg-purple-200 rounded-lg opacity-60 animate-pulse delay-300"></div>
-              <div className="absolute top-1/3 right-8 w-6 h-6 bg-green-200 rounded-full opacity-60 animate-pulse delay-700"></div>
-            </div>
-          </div>
+          <SplineSceneBasic />
         </div>
       </section>
 
