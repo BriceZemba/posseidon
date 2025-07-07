@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Palette, Plus, FileText, Users, Settings } from 'lucide-react';
 import { OrganizationSwitcher } from '@/components/organizations/OrganizationSwitcher';
+import { OrganizationManager } from '@/components/organizations/OrganizationManager';
 import { useOrganization } from '@/hooks/useOrganization';
 
 const Dashboard = () => {
@@ -49,6 +50,11 @@ const Dashboard = () => {
           <p className="text-xl text-neutral-400">
             Create, collaborate, and bring your ideas to life
           </p>
+        </div>
+
+        {/* Organization Management Section */}
+        <div className="mb-12">
+          <OrganizationManager />
         </div>
 
         {/* Quick Actions */}
