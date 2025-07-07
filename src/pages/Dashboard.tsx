@@ -4,10 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Palette, Plus, FileText, Users, Settings } from 'lucide-react';
+import { OrganizationSwitcher } from '@/components/organizations/OrganizationSwitcher';
+import { useOrganization } from '@/hooks/useOrganization';
 
 const Dashboard = () => {
   const { user } = useUser();
   const navigate = useNavigate();
+  const { organizationName, organizationId } = useOrganization();
 
   const handleCardClick = (path: string) => {
     navigate(path);
@@ -26,6 +29,7 @@ const Dashboard = () => {
           </div>
           
           <div className="flex items-center gap-4">
+            <OrganizationSwitcher />
             <span className="text-neutral-300">Welcome, {user?.firstName || 'User'}!</span>
             <UserButton appearance={{
               elements: {
@@ -40,7 +44,7 @@ const Dashboard = () => {
       <main className="max-w-6xl mx-auto px-6 py-12">
         <div className="mb-12">
           <h1 className="text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-400">
-            Your Workspace
+            {organizationName}
           </h1>
           <p className="text-xl text-neutral-400">
             Create, collaborate, and bring your ideas to life
@@ -106,7 +110,8 @@ const Dashboard = () => {
             <div className="w-16 h-16 bg-gradient-to-br from-neutral-700 to-neutral-800 rounded-2xl flex items-center justify-center mx-auto mb-4">
               <FileText className="w-8 h-8 text-neutral-400" />
             </div>
-            <p className="text-neutral-400 mb-6">No boards yet. Create your first board to get started!</p>
+            <p className="text-neutral-400 mb-2">No boards yet in {organizationName}.</p>
+            <p className="text-sm text-neutral-500 mb-6">Organization ID: {organizationId}</p>
             <Button 
               className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white border-0"
               onClick={() => handleCardClick('/whiteboard')}

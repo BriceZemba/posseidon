@@ -1,10 +1,23 @@
 
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Palette, Square, Circle, Type } from 'lucide-react';
+import { ArrowLeft, Palette } from 'lucide-react';
+import { Canvas } from '@/components/whiteboard/Canvas';
+import { Toolbar } from '@/components/whiteboard/Toolbar';
+import { ColorPicker } from '@/components/whiteboard/ColorPicker';
+import { OrganizationSwitcher } from '@/components/organizations/OrganizationSwitcher';
+import { useOrganization } from '@/hooks/useOrganization';
 
 const Whiteboard = () => {
   const navigate = useNavigate();
+  const { organizationName } = useOrganization();
+  const [activeTool, setActiveTool] = useState<"select" | "draw" | "rectangle" | "circle">("select");
+  const [activeColor, setActiveColor] = useState("#000000");
+
+  const handleClear = () => {
+    // This will be handled by the Canvas component
+  };
 
   return (
     <div className="min-h-screen bg-black">
@@ -26,10 +39,12 @@ const Whiteboard = () => {
                 <Palette className="w-5 h-5 text-white" />
               </div>
               <span className="text-xl font-bold text-neutral-100">Untitled Board</span>
+              <span className="text-sm text-neutral-400">• {organizationName}</span>
             </div>
           </div>
           
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-4">
+            <OrganizationSwitcher />
             <Button variant="outline" size="sm" className="text-neutral-300 border-neutral-700">
               Share
             </Button>
@@ -40,37 +55,15 @@ const Whiteboard = () => {
         </div>
       </header>
 
-      {/* Toolbar */}
-      <div className="border-b border-neutral-800 bg-neutral-900/30 backdrop-blur-sm">
-        <div className="max-w-6xl mx-auto px-6 py-3">
-          <div className="flex items-center justify-center gap-2">
-            <Button variant="ghost" size="sm" className="text-neutral-300 hover:text-white">
-              <Square className="w-4 h-4" />
-            </Button>
-            <Button variant="ghost" size="sm" className="text-neutral-300 hover:text-white">
-              <Circle className="w-4 h-4" />
-            </Button>
-            <Button variant="ghost" size="sm" className="text-neutral-300 hover:text-white">
-              <Type className="w-4 h-4" />
-            </Button>
-            <Button variant="ghost" size="sm" className="text-neutral-300 hover:text-white">
-              <Palette className="w-4 h-4" />
-            </Button>
-          </div>
-        </div>
-      </div>
-
       {/* Canvas Area */}
       <main className="flex-1 p-6">
         <div className="max-w-6xl mx-auto">
-          <div className="bg-white rounded-lg shadow-lg" style={{ height: '600px' }}>
-            <div className="flex items-center justify-center h-full text-neutral-500">
-              <div className="text-center">
-                <Palette className="w-16 h-16 mx-auto mb-4 text-neutral-300" />
-                <p className="text-lg">Your canvas is ready!</p>
-                <p className="text-sm">Whiteboard functionality coming soon...</p>
-              </div>
+          <div className="flex flex-col gap-4">
+            <div className="flex gap-4 items-center">
+              <Toolbar activeTool={activeTool} onToolClick={setActiveTool} onClear={handleClear} />
+              <ColorPicker color={activeColor} onChange={setActiveColor} />
             </div>
+            <Canvas activeTool={activeTool} activeColor={activeColor} />
           </div>
         </div>
       </main>
