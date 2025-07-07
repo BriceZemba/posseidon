@@ -8,6 +8,9 @@ import { SignedIn, SignedOut } from '@clerk/clerk-react';
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
+import Whiteboard from "./pages/Whiteboard";
+import Templates from "./pages/Templates";
+import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,6 +29,30 @@ const App = () => (
             element={
               <SignedIn>
                 <Dashboard />
+              </SignedIn>
+            } 
+          />
+          <Route 
+            path="/whiteboard" 
+            element={
+              <SignedIn>
+                <Whiteboard />
+              </SignedIn>
+            } 
+          />
+          <Route 
+            path="/templates" 
+            element={
+              <SignedIn>
+                <Templates />
+              </SignedIn>
+            } 
+          />
+          <Route 
+            path="/settings" 
+            element={
+              <SignedIn>
+                <Settings />
               </SignedIn>
             } 
           />
