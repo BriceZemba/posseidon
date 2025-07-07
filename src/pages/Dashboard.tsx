@@ -6,15 +6,25 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Palette, Plus, FileText, Users, Settings } from 'lucide-react';
 import { OrganizationSwitcher } from '@/components/organizations/OrganizationSwitcher';
 import { OrganizationManager } from '@/components/organizations/OrganizationManager';
+import { WhiteboardGrid } from '@/components/dashboard/WhiteboardGrid';
 import { useOrganization } from '@/hooks/useOrganization';
+import { useWhiteboards } from '@/hooks/useWhiteboards';
 
 const Dashboard = () => {
   const { user } = useUser();
   const navigate = useNavigate();
   const { organizationName, organizationId } = useOrganization();
+  const { createWhiteboard } = useWhiteboards(organizationId);
 
   const handleCardClick = (path: string) => {
     navigate(path);
+  };
+
+  const handleQuickCreateWhiteboard = async () => {
+    const whiteboardId = await createWhiteboard();
+    if (whiteboardId) {
+      navigate(`/whiteboard/${whiteboardId}`);
+    }
   };
 
   return (
@@ -61,7 +71,7 @@ const Dashboard = () => {
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
           <Card 
             className="group bg-neutral-900/50 backdrop-blur-sm hover:bg-neutral-800/50 transition-all duration-300 transform hover:-translate-y-1 border border-neutral-800 hover:border-neutral-700 cursor-pointer"
-            onClick={() => handleCardClick('/whiteboard')}
+            onClick={handleQuickCreateWhiteboard}
           >
             <CardContent className="p-6 text-center">
               <div className="w-12 h-12 bg-gradient-to-br from-green-500/20 to-green-600/30 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 border border-green-500/20">
@@ -109,24 +119,8 @@ const Dashboard = () => {
           </Card>
         </div>
 
-        {/* Recent Boards */}
-        <div>
-          <h2 className="text-2xl font-bold mb-6 text-neutral-100">Recent Boards</h2>
-          <div className="text-center py-12">
-            <div className="w-16 h-16 bg-gradient-to-br from-neutral-700 to-neutral-800 rounded-2xl flex items-center justify-center mx-auto mb-4">
-              <FileText className="w-8 h-8 text-neutral-400" />
-            </div>
-            <p className="text-neutral-400 mb-2">No boards yet in {organizationName}.</p>
-            <p className="text-sm text-neutral-500 mb-6">Organization ID: {organizationId}</p>
-            <Button 
-              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white border-0"
-              onClick={() => handleCardClick('/whiteboard')}
-            >
-              <Plus className="w-4 h-4 mr-2" />
-              Create Your First Board
-            </Button>
-          </div>
-        </div>
+        {/* Whiteboards Grid */}
+        <WhiteboardGrid organizationId={organizationId} />
       </main>
     </div>
   );

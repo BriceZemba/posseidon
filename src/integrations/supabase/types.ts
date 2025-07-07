@@ -14,7 +14,74 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      whiteboard_data: {
+        Row: {
+          canvas_data: Json
+          id: string
+          updated_at: string
+          updated_by: string
+          version: number
+          whiteboard_id: string
+        }
+        Insert: {
+          canvas_data?: Json
+          id?: string
+          updated_at?: string
+          updated_by: string
+          version?: number
+          whiteboard_id: string
+        }
+        Update: {
+          canvas_data?: Json
+          id?: string
+          updated_at?: string
+          updated_by?: string
+          version?: number
+          whiteboard_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "whiteboard_data_whiteboard_id_fkey"
+            columns: ["whiteboard_id"]
+            isOneToOne: false
+            referencedRelation: "whiteboards"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      whiteboards: {
+        Row: {
+          created_at: string
+          created_by: string
+          id: string
+          is_public: boolean
+          organization_id: string
+          thumbnail_url: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by: string
+          id?: string
+          is_public?: boolean
+          organization_id: string
+          thumbnail_url?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          id?: string
+          is_public?: boolean
+          organization_id?: string
+          thumbnail_url?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

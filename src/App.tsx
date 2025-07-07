@@ -33,6 +33,14 @@ const App = () => (
             } 
           />
           <Route 
+            path="/whiteboard/:id" 
+            element={
+              <SignedIn>
+                <Whiteboard />
+              </SignedIn>
+            } 
+          />
+          <Route 
             path="/whiteboard" 
             element={
               <SignedIn>

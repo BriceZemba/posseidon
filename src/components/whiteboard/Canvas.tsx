@@ -6,11 +6,15 @@ import { toast } from "sonner";
 interface CanvasProps {
   activeTool: "select" | "draw" | "rectangle" | "circle";
   activeColor: string;
+  whiteboardId?: string;
+  initialData?: any;
+  onDataChange?: (data: any) => void;
 }
 
-export const Canvas = ({ activeTool, activeColor }: CanvasProps) => {
+export const Canvas = ({ activeTool, activeColor, whiteboardId, initialData, onDataChange }: CanvasProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [fabricCanvas, setFabricCanvas] = useState<FabricCanvas | null>(null);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
     if (!canvasRef.current) return;
@@ -26,13 +30,68 @@ export const Canvas = ({ activeTool, activeColor }: CanvasProps) => {
     canvas.freeDrawingBrush.color = activeColor;
     canvas.freeDrawingBrush.width = 2;
 
+    // Set up event listeners for real-time collaboration
+    canvas.on('path:created', () => {
+      if (onDataChange && isInitialized) {
+        const canvasData = canvas.toJSON();
+        onDataChange(canvasData);
+      }
+    });
+
+    canvas.on('object:added', () => {
+      if (onDataChange && isInitialized) {
+        const canvasData = canvas.toJSON();
+        onDataChange(canvasData);
+      }
+    });
+
+    canvas.on('object:modified', () => {
+      if (onDataChange && isInitialized) {
+        const canvasData = canvas.toJSON();
+        onDataChange(canvasData);
+      }
+    });
+
     setFabricCanvas(canvas);
-    toast("Canvas ready! Start drawing!");
+    console.log('Canvas initialized');
 
     return () => {
       canvas.dispose();
     };
   }, []);
+
+  // Load initial data when canvas is ready
+  useEffect(() => {
+    if (!fabricCanvas || !initialData || isInitialized) return;
+
+    try {
+      fabricCanvas.loadFromJSON(initialData, () => {
+        fabricCanvas.renderAll();
+        setIsInitialized(true);
+        console.log('Canvas data loaded from initial data');
+      });
+    } catch (error) {
+      console.error('Error loading initial canvas data:', error);
+      setIsInitialized(true);
+    }
+  }, [fabricCanvas, initialData, isInitialized]);
+
+  // Update canvas data when real-time updates are received
+  useEffect(() => {
+    if (!fabricCanvas || !initialData || !isInitialized) return;
+
+    try {
+      // Temporarily disable event listeners to prevent infinite loops
+      const tempOnDataChange = onDataChange;
+      
+      fabricCanvas.loadFromJSON(initialData, () => {
+        fabricCanvas.renderAll();
+        console.log('Canvas updated from real-time data');
+      });
+    } catch (error) {
+      console.error('Error updating canvas from real-time data:', error);
+    }
+  }, [initialData]);
 
   useEffect(() => {
     if (!fabricCanvas) return;
@@ -46,7 +105,7 @@ export const Canvas = ({ activeTool, activeColor }: CanvasProps) => {
   }, [activeTool, activeColor, fabricCanvas]);
 
   useEffect(() => {
-    if (!fabricCanvas) return;
+    if (!fabricCanvas || !isInitialized) return;
 
     if (activeTool === "rectangle") {
       const rect = new Rect({
@@ -66,15 +125,28 @@ export const Canvas = ({ activeTool, activeColor }: CanvasProps) => {
       });
       fabricCanvas.add(circle);
     }
-  }, [activeTool, activeColor, fabricCanvas]);
+  }, [activeTool, activeColor, fabricCanvas, isInitialized]);
 
   const handleClear = () => {
     if (!fabricCanvas) return;
     fabricCanvas.clear();
     fabricCanvas.backgroundColor = "#ffffff";
     fabricCanvas.renderAll();
+    
+    if (onDataChange) {
+      const canvasData = fabricCanvas.toJSON();
+      onDataChange(canvasData);
+    }
+    
     toast("Canvas cleared!");
   };
+
+  // Expose clear function to parent
+  useEffect(() => {
+    if (fabricCanvas) {
+      (fabricCanvas as any).clearCanvas = handleClear;
+    }
+  }, [fabricCanvas]);
 
   return (
     <div className="border border-gray-200 rounded-lg shadow-lg overflow-hidden bg-white">
