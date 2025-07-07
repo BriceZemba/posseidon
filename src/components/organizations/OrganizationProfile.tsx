@@ -19,7 +19,6 @@ export const OrganizationProfile = () => {
           navbarButtonActive: "text-white bg-neutral-700",
         }
       }}
-      routing="modal"
     />
   );
 };

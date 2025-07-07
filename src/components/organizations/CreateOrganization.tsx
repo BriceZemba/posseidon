@@ -16,7 +16,6 @@ export const CreateOrganization = () => {
           footerActionLink: "text-blue-400 hover:text-blue-300",
         }
       }}
-      routing="modal"
       afterCreateOrganizationUrl="/dashboard"
     />
   );
